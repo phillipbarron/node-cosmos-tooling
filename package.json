@@ -3,6 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prettier": "prettier --write .",
+    "build": "tsc -p tsconfig.build.json"
+  },
   "dependencies": {
     "typescript": "^5.8.3",
     "vitest": "^3.1.1"

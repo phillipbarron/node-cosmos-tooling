@@ -1,6 +1,6 @@
 import https from 'https';
-import { getCertificateAgent } from './certificate_service';
-import { getProxyConfig } from './proxy_service';
+import { certificateValuesExported, getCertificateAgent } from './certificate-service';
+import { getProxyConfig } from './proxy-service';
 
 const COSMOS_API = 'https://cosmos.api.bbci.co.uk';
 const API_VERSION = 'v1';
@@ -20,6 +20,9 @@ interface LoginResponse {
 async function fetchWithAgent(url: string, options: RequestInit): Promise<Response> {
   const agent = getCertificateAgent();
   const proxyConfig = getProxyConfig();
+
+  // create agent for https requests
+
 
   return fetch(url, {
     ...options,
@@ -78,6 +81,10 @@ export async function getLoginAvailability(loginRefUri: string): Promise<any> {
 }
 
 export async function login(serviceName: string, environment: string, instance: number = 0): Promise<void> {
+    if (!certificateValuesExported()) {
+        console.error('Certificate values not exported. Please set the environment variables.');
+        process.exit(1);
+    }
   const login = await createLogin(serviceName, environment, instance);
   let loginAvailability = await getLoginAvailability(login.login.ref);
 
